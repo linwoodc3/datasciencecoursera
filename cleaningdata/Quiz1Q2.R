@@ -12,6 +12,7 @@ dateDownloaded
 library(xlsx)
 natgasData <- read.xlsx('./data/natgas.xlsx',sheetIndex=1,header=TRUE)
 
+colIndex <- 7:15
+rowIndex <- 18:23
+dat <- read.xlsx('./data/natgas.xlsx',sheetIndex = 1, colIndex = colIndex, rowIndex = rowIndex)
 
-
-head(natgasData)
