@@ -185,26 +185,12 @@ print(paste0("The data has descriptive variable names. Proceeding.... "))
 # Task 5, Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
 ###############################################################################
 
+# Summarize multiple columsn in R using dplyr
+# Help came from this link: http://stackoverflow.com/questions/21644848/summarizing-multiple-columns-with-dplyr
+
 tidydata <- descriptivedat %>% group_by(NumberofParticipatingSubject, AssessedActivity) %>% summarise_each(funs(mean,"mean",mean(.,na.rm=TRUE)))
-# Graveyard
-# Adding variable names
-#colnames(X) <- features[,2]
-#colnames(y) <- "activity"
-#colnames(subject) <- "subject"
+write.table(tidydata, "~/projects/datasciencecoursera/cleaningdata/courseproject/tidydata.txt", sep=",", row.names = FALSE)
 
-# Clean workspace
 
-#print(paste0("The data merge is complete. Proceeding.... "))
+print(paste0("The tidy data set was created. Script complete."))
 
-# first, we remember how to convert the variable names to all lowercase, Week 4, video 1 "Editing Text Variables"
-#colnames(dat)<- tolower(names(dat))
-
-# create a list of column names that only have "std" and "mean", then subset dat by this list
-#test <- grep("std",tolower(names(dat)),value = TRUE)
-#stdtest <- dat[test]
-
-#test <- grep("mean",tolower(names(dat)),value = TRUE)
-#meantest <- dat[test]
-
-# bind the columsn, creating a data set with only mean and standard deviation measurements
-#meanstddat <- bind_cols(stdtest,meantest)
