@@ -4,7 +4,7 @@ author: "Linwood Creekmore III"
 date: "December 25, 2015"
 output: html_document
 ---
-# R Script to Impose tidy-data Principles of UCI Human Activity Recognition Dataset
+# R Script to Impose tidy-data Principles on UCI Human Activity Recognition Dataset
 
 The *run_analysis.R* script in this repository collects, works with, and cleans the [UCI Human Activity Recognition Using Smartphones Dataset](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) for later analysis. To understand the data, variables and transformations, see the [CodeBook in this repository](https://github.com/linwoodc3/datasciencecoursera/blob/master/cleaningdata/courseproject/CodeBook.Rmd). The tasks performed by the script on the UCI HAR Dataset are:
 
