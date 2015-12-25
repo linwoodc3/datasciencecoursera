@@ -158,21 +158,25 @@ descriptivedat <- bind_cols(test,test2,descriptivedat["action"],subject[,1])
 
 # cleaning up variable names to be descriptive; remove punctuation, expand shortened names
 names(descriptivedat) <- gsub("-", "", names(descriptivedat))
-names(descriptivedat) <-gsub("acc", "accelerometer", names(descriptivedat))
-names(descriptivedat) <-gsub("gyro", "gyroscope", names(descriptivedat))
-names(descriptivedat) <-gsub("mag", "magnitude", names(descriptivedat))
-names(descriptivedat) <-gsub("^t", "time", names(descriptivedat))
-names(descriptivedat) <-gsub("^f|freq", "frequency", names(descriptivedat))
+names(descriptivedat) <-gsub("acc", "Accelerometer", names(descriptivedat))
+names(descriptivedat) <-gsub("gyro", "Gyroscope", names(descriptivedat))
+names(descriptivedat) <-gsub("mag", "Magnitude", names(descriptivedat))
+names(descriptivedat) <-gsub("^t", "Time", names(descriptivedat))
+names(descriptivedat) <-gsub("^f|freq", "Frequency", names(descriptivedat))
 names(descriptivedat) <-gsub("\\(\\)", "", names(descriptivedat))
-names(descriptivedat) <-gsub("x$", "inxdirection", names(descriptivedat))
-names(descriptivedat) <-gsub("y$", "inydirection", names(descriptivedat))
-names(descriptivedat) <-gsub("z$", "inzdirection", names(descriptivedat))
-names(descriptivedat) <-gsub("std", "standarddeviation", names(descriptivedat))
+names(descriptivedat) <-gsub("x$", "inXdirection", names(descriptivedat))
+names(descriptivedat) <-gsub("y$", "inYdirection", names(descriptivedat))
+names(descriptivedat) <-gsub("z$", "inZdirection", names(descriptivedat))
+names(descriptivedat) <-gsub("std", "StandardDeviation", names(descriptivedat))
+names(descriptivedat) <-gsub("mean", "Mean", names(descriptivedat))
+names(descriptivedat) <-gsub("bodybody|body", "Body", names(descriptivedat))
+names(descriptivedat) <-gsub("gravity", "Gravity", names(descriptivedat))
+names(descriptivedat) <-gsub("jerk", "Jerk", names(descriptivedat))
 
 # adding descriptive values to remaining columns; removing a leftove column
 descriptivedat$V1 <- NULL
-descriptivedat$subject <- paste0("participant",descriptivedat$subject)
-names(descriptivedat)[80:81] <- c("assessedactivity","participatingsubject")
+descriptivedat$subject <- subject$V1 # append participant to the subject number
+names(descriptivedat)[80:81] <- c("AssessedActivity","NumberofParticipatingSubject")
 
 # Pass info to console
 print(paste0("The data has descriptive variable names. Proceeding.... "))
@@ -181,8 +185,7 @@ print(paste0("The data has descriptive variable names. Proceeding.... "))
 # Task 5, Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
 ###############################################################################
 
-
-
+tidydata <- descriptivedat %>% group_by(NumberofParticipatingSubject, AssessedActivity) %>% summarise_each(funs(mean,"mean",mean(.,na.rm=TRUE)))
 # Graveyard
 # Adding variable names
 #colnames(X) <- features[,2]
