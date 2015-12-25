@@ -119,6 +119,71 @@ print(paste0("Descriptive activity names were appeneded to the dataframe (Task 3
 # Task 4, Appropriately labels the data set with descriptive variable names. 
 ###############################################################################
 
+# From the steps above, we get the indexes of the subsetted "std" measurements
+g <- grep("std",features$V2); # This gives us a 33 by 2 dataframe using "dim"; 1:33 is our target range to apply column names
+
+# Let's do a quick check to see if we are matching indexes correctly, we want to get 33 in the end
+# We will extract the variable names, strip the "V", convert to numeric, and then "intersect" to see if all match
+
+names(descriptivedat[1:33]); # this extracts variable names with indexes that match "std" subset indexes from features 
+gsub("V","",names(descriptivedat[1:33])); # this strips the "V" from the names; we have character class
+f <- as.numeric(gsub("V","",names(descriptivedat[1:33]))); # this converts characters to numeric data class
+length(intersect(f,g)); # This should match the length of g above, if so, we can now add the column names
+
+if (length(g)==length(f)) {
+        test <- descriptivedat[1:33]
+        names(test) <- tolower(features[grep("std",features$V2),][,2])
+        
+} else {
+        warning("The dimensions of the indexes do not match up")
+}
+
+# Now we do the same for the "mean" measurements
+g <- grep("mean",features$V2); # This gives us a by 2 dataframe using "dim"; 1:33 is our target range to apply column names
+names(descriptivedat[34:79]); # this extracts variable names with indexes that match "std" subset indexes from features 
+gsub("V","",names(descriptivedat[34:79])); # this strips the "V" from the names; we have character class
+f <- as.numeric(gsub("V","",names(descriptivedat[34:79]))); # this converts characters to numeric data class
+length(intersect(f,g)); # This should match the length of g above, if so, we can now add the column names
+
+if (length(g)==length(f)) {
+        test2 <- descriptivedat[34:79]
+        names(test2) <- tolower(features[grep("mean",features$V2),][,2])
+        
+} else {
+        warning("The dimensions of the indexes do not match up")
+}
+
+# combine the newly renamed columns and placeholder files
+descriptivedat <- bind_cols(test,test2,descriptivedat["action"],subject[,1])
+
+# cleaning up variable names to be descriptive; remove punctuation, expand shortened names
+names(descriptivedat) <- gsub("-", "", names(descriptivedat))
+names(descriptivedat) <-gsub("acc", "accelerometer", names(descriptivedat))
+names(descriptivedat) <-gsub("gyro", "gyroscope", names(descriptivedat))
+names(descriptivedat) <-gsub("mag", "magnitude", names(descriptivedat))
+names(descriptivedat) <-gsub("^t", "time", names(descriptivedat))
+names(descriptivedat) <-gsub("^f|freq", "frequency", names(descriptivedat))
+names(descriptivedat) <-gsub("\\(\\)", "", names(descriptivedat))
+names(descriptivedat) <-gsub("x$", "inxdirection", names(descriptivedat))
+names(descriptivedat) <-gsub("y$", "inydirection", names(descriptivedat))
+names(descriptivedat) <-gsub("z$", "inzdirection", names(descriptivedat))
+names(descriptivedat) <-gsub("std", "standarddeviation", names(descriptivedat))
+
+# adding descriptive values to remaining columns; removing a leftove column
+descriptivedat$V1 <- NULL
+descriptivedat$subject <- paste0("participant",descriptivedat$subject)
+names(descriptivedat)[80:81] <- c("assessedactivity","participatingsubject")
+
+# Pass info to console
+print(paste0("The data has descriptive variable names. Proceeding.... "))
+
+###############################################################################
+# Task 5, Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+###############################################################################
+
+
+
+# Graveyard
 # Adding variable names
 #colnames(X) <- features[,2]
 #colnames(y) <- "activity"
@@ -127,8 +192,6 @@ print(paste0("Descriptive activity names were appeneded to the dataframe (Task 3
 # Clean workspace
 
 #print(paste0("The data merge is complete. Proceeding.... "))
-
-# Graveyard
 
 # first, we remember how to convert the variable names to all lowercase, Week 4, video 1 "Editing Text Variables"
 #colnames(dat)<- tolower(names(dat))
