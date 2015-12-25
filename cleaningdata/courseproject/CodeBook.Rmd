@@ -114,14 +114,17 @@ The course project required several task to get the HAR Dataset to a tidy state.
 
 ### 3.1 Joining Test and Train data
 The HAR Dataset has data split into test and train partitions.  The train datasets were:
-*X_train.txt
-*y_train.txt
-*subject_train.txt
+
+* X_train.txt
+* y_train.txt
+* subject_train.txt
+
 
 The test datasets were:
-*X_test.txt
-*y_test.txt
-*subject_test.txt
+
+* X_test.txt
+* y_test.txt
+* subject_test.txt
 
 After downloading the files, merging is accomplished user the dplyr package's [bind](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) function:
 
@@ -211,8 +214,8 @@ The format for the original column names was:<br><br>
 *- tBodyGyroJerk-mean()-X*<br><br>
 To improve on this, the transformation will use expanded words from the features_info.txt file.  For intuitiveness, the script imposes *sentence case*.  A few examples:
 
-| Original Word        | Substitution         
-| ------------- |:-------------:| 
+| Original Word        | Substitution |        
+| ------------- |-------------| 
 | Acc      | Accelerometer | 
 | Gyro     | Gyroscope      |  
 | t | Time      |
@@ -244,7 +247,7 @@ names(descriptivedat)[80:81] <- c("AssessedActivity","NumberofParticipatingSubje
 ```
 
 ### 3.5 Creating a summarized dataframe with averages grouped by activity and subject
-The final task was to create an independent tidy data set with the average of each variable for each activity and each subject.  The [summarize and chain functions in dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) did the job:
+The final task was to create an independent tidy data set with the average of each variable for each activity and each subject.  The [summarize_each and chain functions in dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) did the job:
 ```{r, eval=FALSE}
 # Summarize multiple columsn in R using dplyr
 # Help came from this link: http://stackoverflow.com/questions/21644848/summarizing-multiple-columns-with-dplyr
