@@ -1,0 +1,254 @@
+---
+title: "CodeBook for Human Activity Recognition Using Smartphones Dataset tidying"
+author: "Linwood Creekmore III"
+date: "December 25, 2015"
+output: html_document
+---
+
+This code book describes the variables, the data, and any transformations or work performed to impose [tidy data principles](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) on the Version 1.0 Human Activity Recognition Using Smartphones Dataset.  
+<br><br>
+
+## 1. The Data : Human Activity Recognition Using Smartphones Dataset, Version 1.0
+This project focused on "tidying" or structuring the Human Activity Recognition Using Smartphones Dataset (HAR Dataset) to facilitate analysis. The HAR dataset is a multivariate, time series dataset built from the recordings of 30 subjects performing activities of daily living (ADL) while carrying a waist-mounted smartphone with embedded inertial sensors.
+
+* To see more information about the HAR Dataset, visit the [Univeristy of California Irvine (UCI) Machine learning repository webpage](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) for more information.
+
+* To learn more about Hadley Wickham's principles of tidy data, read the [September 2014 Journal of Statistics article](http://vita.had.co.nz/papers/tidy-data.pdf)
+The princples discussed in this work provide a standard way to organize data values within a dataset.
+
+The dataset was downloaded as a zipfile and extracted to the home directory for the R console. The link to download the data:
+https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+<br>
+
+```{r,eval=FALSE}
+temp <- tempfile()
+if(!file.exists('./data/files/UCI HAR Dataset')) {
+        download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip",temp)
+        unzip(temp,exdir = './data/files')
+```
+
+
+
+## 2. The Variables: Human Activity Recognition Using Smartphones Dataset, Version 1.0
+
+*\*The original write up for the features is found in the features_info.txt file in the downloaded zip\**
+
+The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals *tAcc-XYZ* and *tGyro-XYZ*. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (*tBodyAcc-XYZ* and *tGravityAcc-XYZ*) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+
+Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (*tBodyAccJerk-XYZ* and *tBodyGyroJerk-XYZ*). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (*tBodyAccMag*, *tGravityAccMag*, *tBodyAccJerkMag*, *tBodyGyroMag*, *tBodyGyroJerkMag*). 
+
+Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing *fBodyAcc-XYZ*, *fBodyAccJerk-XYZ*, *fBodyGyro-XYZ*, *fBodyAccJerkMag*, *fBodyGyroMag*, *fBodyGyroJerkMag*. (Note the 'f' to indicate frequency domain signals). 
+
+These signals were used to estimate variables of the feature vector for each pattern:  
+'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
+
+| Variable       | 
+| ------------- |
+|tBodyAcc-XYZ |
+|tGravityAcc-XYZ|
+|tBodyAccJerk-XYZ|
+|tBodyGyro-XYZ|
+|tBodyGyroJerk-XYZ|
+|tBodyAccMag|
+|tGravityAccMag|
+|tBodyAccJerkMag|
+|tBodyGyroMag|
+|tBodyGyroJerkMag|
+|fBodyAcc-XYZ|
+|fBodyAccJerk-XYZ|
+|fBodyGyro-XYZ|
+|fBodyAccMag|
+|fBodyAccJerkMag|
+|fBodyGyroMag|
+|fBodyGyroJerkMag|
+
+This work only considered variables measurements of the mean and standard deviation: 
+
+mean(): Mean value
+std(): Standard deviation
+
+The mean variables used were:
+```{r, eval=FALSE}
+[1] tBodyAcc-mean()-X               tBodyAcc-mean()-Y              
+ [3] tBodyAcc-mean()-Z               tGravityAcc-mean()-X           
+ [5] tGravityAcc-mean()-Y            tGravityAcc-mean()-Z           
+ [7] tBodyAccJerk-mean()-X           tBodyAccJerk-mean()-Y          
+ [9] tBodyAccJerk-mean()-Z           tBodyGyro-mean()-X             
+[11] tBodyGyro-mean()-Y              tBodyGyro-mean()-Z             
+[13] tBodyGyroJerk-mean()-X          tBodyGyroJerk-mean()-Y         
+[15] tBodyGyroJerk-mean()-Z          tBodyAccMag-mean()             
+[17] tGravityAccMag-mean()           tBodyAccJerkMag-mean()         
+[19] tBodyGyroMag-mean()             tBodyGyroJerkMag-mean()        
+[21] fBodyAcc-mean()-X               fBodyAcc-mean()-Y              
+[23] fBodyAcc-mean()-Z               fBodyAcc-meanFreq()-X          
+[25] fBodyAcc-meanFreq()-Y           fBodyAcc-meanFreq()-Z          
+[27] fBodyAccJerk-mean()-X           fBodyAccJerk-mean()-Y          
+[29] fBodyAccJerk-mean()-Z           fBodyAccJerk-meanFreq()-X      
+[31] fBodyAccJerk-meanFreq()-Y       fBodyAccJerk-meanFreq()-Z      
+[33] fBodyGyro-mean()-X              fBodyGyro-mean()-Y             
+[35] fBodyGyro-mean()-Z              fBodyGyro-meanFreq()-X         
+[37] fBodyGyro-meanFreq()-Y          fBodyGyro-meanFreq()-Z         
+[39] fBodyAccMag-mean()              fBodyAccMag-meanFreq()         
+[41] fBodyBodyAccJerkMag-mean()      fBodyBodyAccJerkMag-meanFreq() 
+[43] fBodyBodyGyroMag-mean()         fBodyBodyGyroMag-meanFreq()    
+[45] fBodyBodyGyroJerkMag-mean()     fBodyBodyGyroJerkMag-meanFreq()
+```
+<br>
+The standard deviation variables used were:
+```{r, eval=FALSE}
+ [1] tBodyAcc-std()-X           tBodyAcc-std()-Y           tBodyAcc-std()-Z          
+ [4] tGravityAcc-std()-X        tGravityAcc-std()-Y        tGravityAcc-std()-Z       
+ [7] tBodyAccJerk-std()-X       tBodyAccJerk-std()-Y       tBodyAccJerk-std()-Z      
+[10] tBodyGyro-std()-X          tBodyGyro-std()-Y          tBodyGyro-std()-Z         
+[13] tBodyGyroJerk-std()-X      tBodyGyroJerk-std()-Y      tBodyGyroJerk-std()-Z     
+[16] tBodyAccMag-std()          tGravityAccMag-std()       tBodyAccJerkMag-std()     
+[19] tBodyGyroMag-std()         tBodyGyroJerkMag-std()     fBodyAcc-std()-X          
+[22] fBodyAcc-std()-Y           fBodyAcc-std()-Z           fBodyAccJerk-std()-X      
+[25] fBodyAccJerk-std()-Y       fBodyAccJerk-std()-Z       fBodyGyro-std()-X         
+[28] fBodyGyro-std()-Y          fBodyGyro-std()-Z          fBodyAccMag-std()         
+[31] fBodyBodyAccJerkMag-std()  fBodyBodyGyroMag-std()     fBodyBodyGyroJerkMag-std()
+```
+ 
+## 3. Transformations: Adding Tidy Data Principles to the HAR Dataset
+The course project required several task to get the HAR Dataset to a tidy state.  These included joining the test and train datasets, adding descriptive names to the variables and values.  
+
+### 3.1 Joining Test and Train data
+The HAR Dataset has data split into test and train partitions.  The train datasets were:
+*X_train.txt
+*y_train.txt
+*subject_train.txt
+
+The test datasets were:
+*X_test.txt
+*y_test.txt
+*subject_test.txt
+
+After downloading the files, merging is accomplished user the dplyr package's [bind](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) function:
+
+```{r, eval=FALSE}
+# Combining the subjects data set
+subject = bind_rows(subject_train,subject_test)
+
+
+# Joining train and test sets to create X and y sets 
+X <- bind_rows(X_train,X_test)
+y <- bind_rows(y_test,y_train)
+
+
+# Combining all to one single dataframe
+dat <- bind_cols(X,y, subject)
+```
+
+### 3.2 Extracting only variables with measurements of standard deviation and mean
+This transformation was a *subset* of the original *dat* dataframe above.  The goal is to create a dataframe of variable measurements of standard deviation and mean only. Plainly, that means the task is to extract variables with *"std"* and *"mean"* measurements only. To this point, the *dat* dataframe does not have variable names, but instead uses the *"V1"* or *"V2"* generic headers. The features.txt file in the HAR Dataset provides a pathway to get the requested data.  By subsetting the feature.txt (after it is downloaded and read in using read.csv) it is possible to build a list with the index locations of the features with *"std"* and *"mean"* in the variable name.  The tools used are [grep](https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html) and [dplyr's bind](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) again.
+```{r, eval=FALSE}
+# we get the expected outcome in one elegant line of code
+meanstddat <- bind_cols(dat[grep("std",features$V2)],dat[grep("mean",features$V2)])
+
+# but here are the individual steps that are embedded in the code above
+grep("std",features$V2); # Used to pattern match feature with "std" in the string name
+grep("mean",features$V2); # Used to pattern match feature with "mean" in the string name
+dat[grep("std",features$V2)]; # Used to subset the combined data set to pull out only std measurements
+dat[grep("mean",features$V2)]; # Used to subset the combined data set to pull out only mean measurements
+bind_cols(dat[grep("std",features$V2)],dat[grep("mean",features$V2)]); # Use bind_cols from dplyr to join the datasets
+```
+
+### 3.3 Adding descriptive activity names to the y labels
+
+The next task was to transfer the generic labels in the y labels (i.e. 1, 2, 3, 4, 5, 6) to something more descriptive.  The activity_labels.txt file in the HAR Dataset has the data needed.  The [mutate function from dplyr](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) and the [ifelse](http://www.inside-r.org/r-doc/base/ifelse) function from R's base library did the trick.  The goal is to create a new variable that evaluates the integer in the y label and uses a conditional to assign a descriptive value.  For example, if y =1, then the newly generated variable = "WALKING".  Once the descriptive column was created, the code binds that column to the overall data set using the dplyr's bind tool again.  To impose tidy principles, these labels were coverted to lowercase in teh last line.  
+
+```{r, eval=FALSE}
+# Add description of activities to the data set
+y <- mutate( y, action = ifelse(y$V1 ==1,"WALKING",ifelse(y$V1 ==2,"WALKING_UPSTAIRS",ifelse(y$V1==3,"WALKING_DOWNSTAIRS",ifelse(y$V1==4,"SITTING",ifelse(y$V1 ==5,"STANDING",ifelse(y$V1 == y,"LAYING")))))))
+colnames(y[2]) <- "activity"
+descriptivedat <- bind_cols(meanstddat,y[2])
+descriptivedat$action <- tolower(descriptivedat$action)
+```
+
+### 3.4 Adding More Descriptive Variable Names
+Next up, was a task to improve the descriptiveness of the variable names. The first step, was going from generic *"V1"* variable names to the real names from the features.txt file.  This was accomplished using subsetting much like steps above.  For accuracy, a check was added to ensure that the length of the list containing the indexes matched the length of the features.txt list generated when variables with only *"std"* or *"mean"* are extracted.  The code for this work is:
+
+```{r, eval=FALSE}
+# From the steps above, we get the indexes of the subsetted "std" measurements
+g <- grep("std",features$V2); # This gives us a 33 by 2 dataframe using "dim"; 1:33 is our target range to apply column names
+
+# Let's do a quick check to see if we are matching indexes correctly, we want to get 33 in the end
+# We will extract the variable names, strip the "V", convert to numeric, and then "intersect" to see if all match
+
+names(descriptivedat[1:33]); # this extracts variable names with indexes that match "std" subset indexes from features 
+gsub("V","",names(descriptivedat[1:33])); # this strips the "V" from the names; we have character class
+f <- as.numeric(gsub("V","",names(descriptivedat[1:33]))); # this converts characters to numeric data class
+length(intersect(f,g)); # This should match the length of g above, if so, we can now add the column names
+
+if (length(g)==length(f)) {
+        test <- descriptivedat[1:33]
+        names(test) <- tolower(features[grep("std",features$V2),][,2])
+        
+} else {
+        warning("The dimensions of the indexes do not match up")
+}
+
+# Now we do the same for the "mean" measurements
+g <- grep("mean",features$V2); # This gives us a by 2 dataframe using "dim"; 1:33 is our target range to apply column names
+names(descriptivedat[34:79]); # this extracts variable names with indexes that match "std" subset indexes from features 
+gsub("V","",names(descriptivedat[34:79])); # this strips the "V" from the names; we have character class
+f <- as.numeric(gsub("V","",names(descriptivedat[34:79]))); # this converts characters to numeric data class
+length(intersect(f,g)); # This should match the length of g above, if so, we can now add the column names
+
+if (length(g)==length(f)) {
+        test2 <- descriptivedat[34:79]
+        names(test2) <- tolower(features[grep("mean",features$V2),][,2])
+        
+} else {
+        warning("The dimensions of the indexes do not match up")
+}
+
+# combine the newly renamed columns and placeholder files
+descriptivedat <- bind_cols(test,test2,descriptivedat["action"],subject[,1])
+
+```
+The format for the original column names was:<br><br>
+*- tBodyGyroJerk-mean()-X*<br><br>
+To improve on this, the transformation will use expanded words from the features_info.txt file.  For intuitiveness, the script imposes *sentence case*.  A few examples:
+
+| Original Word        | Substitution         
+| ------------- |:-------------:| 
+| Acc      | Accelerometer | 
+| Gyro     | Gyroscope      |  
+| t | Time      |
+| f or freq | Frequency    |
+
+Finally, whitespace, underscores, and parentheses are removed from variable names. The [gsub function](https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html) tool was perfect for the task:
+```{r, eval=FALSE}
+# cleaning up variable names to be descriptive; remove punctuation, expand shortened names
+names(descriptivedat) <- gsub("-", "", names(descriptivedat))
+names(descriptivedat) <-gsub("acc", "Accelerometer", names(descriptivedat))
+names(descriptivedat) <-gsub("gyro", "Gyroscope", names(descriptivedat))
+names(descriptivedat) <-gsub("mag", "Magnitude", names(descriptivedat))
+names(descriptivedat) <-gsub("^t", "Time", names(descriptivedat))
+names(descriptivedat) <-gsub("^f|freq", "Frequency", names(descriptivedat))
+names(descriptivedat) <-gsub("\\(\\)", "", names(descriptivedat))
+names(descriptivedat) <-gsub("x$", "inXdirection", names(descriptivedat))
+names(descriptivedat) <-gsub("y$", "inYdirection", names(descriptivedat))
+names(descriptivedat) <-gsub("z$", "inZdirection", names(descriptivedat))
+names(descriptivedat) <-gsub("std", "StandardDeviation", names(descriptivedat))
+names(descriptivedat) <-gsub("mean", "Mean", names(descriptivedat))
+names(descriptivedat) <-gsub("bodybody|body", "Body", names(descriptivedat))
+names(descriptivedat) <-gsub("gravity", "Gravity", names(descriptivedat))
+names(descriptivedat) <-gsub("jerk", "Jerk", names(descriptivedat))
+
+# adding descriptive values to remaining columns; removing a leftove column
+descriptivedat$V1 <- NULL
+descriptivedat$subject <- subject$V1 # append participant to the subject number
+names(descriptivedat)[80:81] <- c("AssessedActivity","NumberofParticipatingSubject")
+```
+
+### 3.5 Creating a summarized dataframe with averages grouped by activity and subject
+The final task was to create an independent tidy data set with the average of each variable for each activity and each subject.  The [summarize and chain functions in dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) did the job:
+```{r, eval=FALSE}
+# Summarize multiple columsn in R using dplyr
+# Help came from this link: http://stackoverflow.com/questions/21644848/summarizing-multiple-columns-with-dplyr
+
+tidydata <- descriptivedat %>% group_by(NumberofParticipatingSubject, AssessedActivity) %>% summarise_each(funs(mean,"mean",mean(.,na.rm=TRUE)))
+write.table(tidydata, "~/projects/datasciencecoursera/cleaningdata/courseproject/tidydata.txt", sep=",", row.names = FALSE)
+```
