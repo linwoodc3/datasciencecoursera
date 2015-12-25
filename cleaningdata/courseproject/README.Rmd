@@ -12,18 +12,32 @@ The *run_analysis.R* script in this repository collects, works with, and cleans 
 2. Extracts only the measurements on the mean and standard deviation for each measurement.
 3. Uses descriptive activity names to name the activities in the data set
 4. Appropriately labels the data set with descriptive variable names.
-5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject. To run this script:
-
-* In your terminal or command line prompt 
+5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+<br>
+To run this script:
+- In your terminal or command line prompt 
 ```
 git clone https://github.com/linwoodc3/datasciencecoursera.git
 ```
 
 The best experience is gained from running the script in RStudio.  To download the latest version, visit the [this webpage and select the version for your OS.](https://www.rstudio.com/products/rstudio/download/)  To learn RStudio and R basics, I suggest starting with [swirl](http://swirlstats.com/students.html)(first choice) or [visit this page](http://web.cs.ucla.edu/~gulzar/rstudio/basic-tutorial.html).
 
-Set your working directory to the location of the cloned git repository in RStudio using the setwd() function.  For assistance, [look over this page](http://www.statmethods.net/interface/workspace.html).  
+- Set your working directory to the location of the cloned git repository in RStudio using the setwd() function.  For assistance, [look over this page](http://www.statmethods.net/interface/workspace.html).
 
-Finally, in the **Console of RStudio**, source the file and watch it go!
+- Download the dataset. The link to download the data:
+https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+<br>
+
+```{r,eval=FALSE}
+temp <- tempfile()
+if(!file.exists('./data/files/UCI HAR Dataset')) {
+        download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip",temp)
+        unzip(temp,exdir = './data/files')
+```
+
+
+
+- Finally, in the **Console of RStudio**, source the file and watch it go!
 
 ```{r,eval=FALSE}
 source('run_analysis.R')
