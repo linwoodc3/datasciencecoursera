@@ -64,8 +64,8 @@ These signals were used to estimate variables of the feature vector for each pat
 
 This work only considered variables measurements of the mean and standard deviation: 
 
-mean(): Mean value
-std(): Standard deviation
+1. mean(): Mean value
+2. std(): Standard deviation
 
 The mean variables used were:
 ```{r, eval=FALSE}
