@@ -4,26 +4,28 @@ author: "Linwood Creekmore III"
 date: "December 25, 2015"
 output: html_document
 ---
+# R Script to Impose tidy-data Principles of UCI Human Activity Recognition Dataset
 
-The *run_analysis.R* script in this repository collects, works with, and cleans the UCI Human Activity Recognition Using Smartphones Dataset for later analysis.
+The *run_analysis.R* script in this repository collects, works with, and cleans the [UCI Human Activity Recognition Using Smartphones Dataset](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) for later analysis. To understand the data, variables and transformations, see the [CodeBook in this repository](https://github.com/linwoodc3/datasciencecoursera/blob/master/cleaningdata/courseproject/CodeBook.Rmd). The tasks performed by the script on the UCI HAR Dataset are:
 
 1. Merges the training and the test sets to create one data set.
 2. Extracts only the measurements on the mean and standard deviation for each measurement.
 3. Uses descriptive activity names to name the activities in the data set
 4. Appropriately labels the data set with descriptive variable names.
-5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject. To run this script:
 
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r}
-summary(cars)
+* In your terminal or command line prompt 
+```
+git clone https://github.com/linwoodc3/datasciencecoursera.git
 ```
 
-You can also embed plots, for example:
+The best experience is gained from running the script in RStudio.  To download the latest version, visit the [this webpage and select the version for your OS.](https://www.rstudio.com/products/rstudio/download/)  To learn RStudio and R basics, I suggest starting with [swirl](http://swirlstats.com/students.html)(first choice) or [visit this page](http://web.cs.ucla.edu/~gulzar/rstudio/basic-tutorial.html).
 
-```{r, echo=FALSE}
-plot(cars)
+Set your working directory to the location of the cloned git repository in RStudio using the setwd() function.  For assistance, [look over this page](http://www.statmethods.net/interface/workspace.html).  
+
+Finally, in the **Console of RStudio**, source the file and watch it go!
+
+```{r,eval=FALSE}
+source('run_analysis.R')
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
