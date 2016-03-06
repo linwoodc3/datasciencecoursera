@@ -26,9 +26,9 @@ library(tidyr)
 ###############################################################################
 
 if (!file.exists('data')) {
-    dir.create('data')}
+        dir.create('data')}
 if (!file.exists('./data/files')) {
-    dir.create('./data/files')}
+        dir.create('./data/files')}
 
 
 
@@ -40,11 +40,11 @@ if (!file.exists('./data/files')) {
 temp <- tempfile()
 if (!file.exists('./data/files/summarySCC_PM25.rds')) {
         print(paste0("You did not have the file; downloading.... "))        
-    download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",temp)
-    unzip(temp,exdir = './data/files')
-    print(paste0("You did not have the file; download complete. Proceeding.... "))
+        download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",temp)
+        unzip(temp,exdir = './data/files')
+        print(paste0("You did not have the file; download complete. Proceeding.... "))
 } else {
-    print(paste0("You have the target zip file. Proceeding.... "))        
+        print(paste0("You have the target zip file. Proceeding.... "))        
 }
 
 ###############################################################################
@@ -85,12 +85,23 @@ if (exists("SCC")) {
         }
 }
 
+
+# Have total emissions from PM2.5 decreased in the Baltimore City,
+# Maryland (𝚏𝚒𝚙𝚜 == "𝟸𝟺𝟻𝟷𝟶") from 1999 to 2008? 
+# Use the base plotting system to make a plot answering this question.
+
 ###############################################################################
 # Basic plot to compare emissions from 1999-2008
 ###############################################################################
 
+# Create a subset of Baltimore only data
+
+bmore <- subset(bmore,bmore$fips=='24510')
+
+print(dim(bmore))
+
 # Sending plot to png file  
-png(file = "./plot1.png", width = 480, height = 480, bg="white")
+png(file = "./plot2.png", width = 480, height = 480, bg="white")
 
 # Setting the margins
 par(mar=c(4,4,3,1))
@@ -100,18 +111,18 @@ par(mar=c(4,4,3,1))
 
 # Building the base plot, with logarithmic scale, without tick marks
 
-df.bar <- barplot(apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])),
-                  col=brewer.pal(4,"Blues"),ylim = c(0,max(apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])))+1000))
+df.bar <- barplot(apply(years,1,function(x) sum(bmore$Emissions[bmore$year == x])),
+                  col=brewer.pal(4,"Reds"), ylim = c(0,max(apply(years,1,function(x) sum(bmore$Emissions[bmore$year == x])))+1000))
 
 # making sure the graph prints to the device
 df.bar
 
 # Adding the line showing the trend of the data through the years
-lines(x=df.bar,y=apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])),lwd=3, col = "light blue")
-points(x=df.bar,y=apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])), pch=19,col='dark blue',cex=1.3)
+lines(x=df.bar,y=apply(years,1,function(x) sum(bmore$Emissions[bmore$year == x])),lwd=3, col = "orange")
+points(x=df.bar,y=apply(years,1,function(x) sum(bmore$Emissions[bmore$year == x])), pch=19,col='dark orange',cex=1.3)
 
 # Annotating and labeling
-title(main = "Decrease in Total Emission - 1999-2008",
+title(main = "Baltimore, MD Total Emission Trends - 1999-2008",
       xlab="Year of Measurement",ylab="Emissions")
 
 # Add custom tick marks for years
