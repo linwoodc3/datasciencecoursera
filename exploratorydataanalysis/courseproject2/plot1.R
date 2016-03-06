@@ -89,7 +89,7 @@ if (exists("SCC")) {
 ###############################################################################
 
 # Set the plotting device
-# png(file = "./plot1.png", width = 480, height = 480, bg="white")
+ png(file = "./plot1.png", width = 480, height = 480, bg="white")
 
 # Building the base plot, with logarithmic scale, without tick marks
 
@@ -108,3 +108,6 @@ axis(1,at=1:4,labels=c(1999,2002,2005,2008))
 text(c(-5,-15,-15,-15),labels = apply(years,1,function(x) 
         sprintf("Sum=%f",sum(NEI$Emissions[NEI$year == x]))),
      cex=0.5, col='red')
+
+# Return to base plotting device
+dev.off()
