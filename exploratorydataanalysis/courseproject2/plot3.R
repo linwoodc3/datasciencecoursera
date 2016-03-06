@@ -111,7 +111,7 @@ plot3 <- ggplot(bmore_grouped,aes(year,total.ems, fill=type))+
         geom_bar(stat='identity', position="dodge")+
         scale_fill_brewer(palette = "Paired")+facet_grid(.~type) +
         scale_x_continuous(breaks=c(1999,2002,2005,2008))+
-        labs(x="Year of Measurement",y="Magnitude fo PM2.5 Emissions", title="Discovering PM2.5 Emissions by Source Type")+
+        labs(x="Year of Measurement",y="Magnitude fo PM2.5 Emissions", title="In 10 years, how well is Baltimore City,MD doing at reducing pollutants?")+
         theme_economist() + scale_colour_economist()+geom_smooth(color="red")
 
 #Printing the answer
