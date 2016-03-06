@@ -101,7 +101,7 @@ par(mar=c(4,4,3,1))
 # Building the base plot, with logarithmic scale, without tick marks
 
 df.bar <- barplot(apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])),
-                  col=brewer.pal(4,"Blues"),ylim = c(0,max(apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])))+1000))
+                  col=brewer.pal(4,"Blues"),ylim = c(0,max(apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])))+(max(apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])))*.10)))
 
 # making sure the graph prints to the device
 df.bar
