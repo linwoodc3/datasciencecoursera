@@ -106,7 +106,7 @@ df.bar <- barplot(apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])),
 # making sure the graph prints to the device
 df.bar
 
-# Adding the line showing the trend of the date thorugh the years
+# Adding the line showing the trend of the data through the years
 lines(x=df.bar,y=apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])),lwd=3, col = "light blue")
 points(x=df.bar,y=apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])), pch=19,col='dark blue',cex=1.3)
 
