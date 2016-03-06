@@ -117,5 +117,9 @@ title(main = "Decrease in Total Emission - 1999-2008",
 # Add custom tick marks for years
 axis(1,at=c(0.7,1.9,3.1,4.3),labels=c(1999,2002,2005,2008))
 
+# Answering the question
+print("Yes! PM2.5 levels in the United States have decreasd in all the years 
+      for which this project has data.")
+
 # Return to base plotting device
 dev.off()

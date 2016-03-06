@@ -128,5 +128,9 @@ title(main = "Baltimore, MD Total Emission Trends - 1999-2008",
 # Add custom tick marks for years
 axis(1,at=c(0.7,1.9,3.1,4.3),labels=c(1999,2002,2005,2008))
 
-# Return to base plotting device
+# Return tPrinting the answer
+print("No! PM2.5 levels in Baltimore, MD have not decreased every year, 
+      but has an overall downward trend in the data used for this project.")
+
+#o base plotting device
 dev.off()
