@@ -13,10 +13,11 @@
 # Check for required packages and load 
 ###############################################################################
 
-list.of.packages <- c("dplyr", "tidyr")
+list.of.packages <- c("dplyr", "tidyr", "RColorBrewer")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
+library(RColorBrewer)
 library(dplyr)
 library(tidyr)
 
@@ -88,26 +89,28 @@ if (exists("SCC")) {
 # Basic plot to compare emissions from 1999-2008
 ###############################################################################
 
-# Set the plotting device
- png(file = "./plot1.png", width = 480, height = 480, bg="white")
+# Sending plot to png file  
+png(file = "./plot1.png", width = 480, height = 480, bg="white")
+
+# Setting the margins
+par(mar=c(4,4,3,1))
+
+# Look at "total" emissions over 1999-2008; I assume this is a histogram to 
+# display magnitude or total value over time.
 
 # Building the base plot, with logarithmic scale, without tick marks
 
-boxplot(log10(em_99$Emissions),log10(em_02$Emissions),log10(em_05$Emissions),
-        log10(em_08$Emissions),main = "Evidence of Decreasing Emissions from 
-        1999-2008", xlab = "Year of Recorded Levels", ylab = "Emissions 
-        (Log)", xaxt = 'n')
+df.bar <- barplot(apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])),
+                  col=brewer.pal(4,"Blues"))
+df.bar
+lines(x=df.bar,y=apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])),lwd=3, col = "light blue")
+points(x=df.bar,y=apply(years,1,function(x) sum(NEI$Emissions[NEI$year == x])), pch=19,col='dark blue',cex=1.3)
+# Annotating and labeling
+title(main = "Decrease in Total Emission - 1999-2008",
+      xlab="Year of Measurement",ylab="Emissions")
 
 # Add custom tick marks for years
-axis(1,at=1:4,labels=c(1999,2002,2005,2008))
-
-# Calculate the average Emmision for each year; store
-#text(c(-5,-15,-15,-15),labels = apply(years,1,function(x)
-        #sprintf("Mean=%f",mean(NEI$Emissions[NEI$year == x]))),
-     #cex=0.5, col='red')
-text(c(-5,-15,-15,-15),labels = apply(years,1,function(x) 
-        sprintf("Sum=%f",sum(NEI$Emissions[NEI$year == x]))),
-     cex=0.5, col='red')
+axis(1,at=c(0.7,1.9,3.1,4.3),labels=c(1999,2002,2005,2008))
 
 # Return to base plotting device
 dev.off()
