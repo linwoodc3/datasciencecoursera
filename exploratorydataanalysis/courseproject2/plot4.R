@@ -88,37 +88,41 @@ if (exists("SCC")) {
 }
 
 
-# Of the four types of sources indicated by the 𝚝𝚢𝚙𝚎 (point, nonpoint, onroad, nonroad
-#  variable, which of these four sources have seen decreases in emissions from 1999–2008 for 
-#  Baltimore City? Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting 
-#  system to make a plot answer this question.
+# Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
 
 ###############################################################################
-# Basic plot to compare emissions from 1999-2008
+# Basic plot to compare emissions from coal combustion-related source from 1999-2008
 ###############################################################################
 
-# Using chained dplyr workflow to select data; REALLY FAST!!!
+# Using chained dplyr workflow to select data from SCC; REALLY FAST!!!
 
-bmore_grouped <- NEI %>%
+coalcomb.index <- SCC %>%
+        filter(grepl("[ ]?Comb+[ ]?[^ ]?",Short.Name))%>%
+        filter(grepl("[ ]?Coal+[ ]?[^ ]?",Short.Name))%>%
+        select(SCC)
+
+# Now extract relevant values from NEI
+combust_data <- NEI[NEI$SCC %in% coalcomb.index$SCC,]
+
+# Chain with dplyr again
+summed_combust.data <- combust.data%>%
+        group_by(year, type)%>%
+        summarise(total.ems=sum(Emissions,na.rm=TRUE),mean= mean(Emissions,na.rm=TRUE))
+
+# Use ggplot2 to make a pretty graphic comparing NonPoint to Point
+coal <- ggplot(summed_combust.data, aes(x=year,y=mean))+
+        geom_area(aes(group=type,fill=type))
+
+plot4 <- coal+scale_x_continuous(breaks=c(1999,2002,2005,2008))+
+        scale_fill_brewer(palette = "Accent")+
+        theme_economist() + scale_colour_economist()+
+        scale_fill_discrete(guide_legend(title=""),
+                            breaks = c("NONPOINT","POINT"),
+                            labels = c("NonPoint","Point"))+
+        labs(x="Year of Measurement",y="Average emissions (tons of PM2.5)",
+             title="Coal Combustion-related Emissions for Direct Producers Reduce Over 10 Years")
+
+print(plot4)
+ggsave(plot4,file="./plot4.png")        
         
-        filter(fips =='24510') %>%
-        group_by(type,year) %>%
-        summarise(total.ems=sum(Emissions,na.rm=TRUE))
-
-
-# Using ggplot2 to plot different panels for comparison; use color palette
-# Also used the "Economist" theme to get a polished look
-plot3 <- ggplot(bmore_grouped,aes(year,total.ems, fill=type))+
-        geom_bar(stat='identity', position="dodge")+
-        scale_fill_brewer(palette = "Paired")+facet_grid(.~type) +
-        scale_x_continuous(breaks=c(1999,2002,2005,2008))+
-        labs(x="Year of Measurement",y="Magnitude fo PM2.5 Emissions", title="In 10 years, how well is Baltimore City,MD doing at reducing pollutants?")+
-        theme_economist() + scale_colour_economist()+geom_smooth(color="red")
-
-#Printing the answer
-print("As can be seen in the graphic, \"POINT\" source had a spike in 2005 while other years have
-a consistent downward trend")
-
-ggsave(plot3,file="./plot3.png")
-
-
+    
